@@ -8,6 +8,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/*
+ * TODO Abstract/Generalize the load/select/save
+ * directory functionality from DirectoryCompare and
+ * add it here
+ */
+
 public class CommonTools {
 
 	public static void processError(String errorText){
