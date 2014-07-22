@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.JFileChooser;
+
 /*
  * TODO Abstract/Generalize the load/select/save
  * directory functionality from DirectoryCompare and
@@ -84,5 +86,64 @@ public class CommonTools {
 	public static boolean isDebugMode(){
 		return java.lang.management.ManagementFactory.getRuntimeMXBean().
 			    getInputArguments().toString().indexOf("jdwp") >= 0;
+	}
+	
+	public static File selectSavedDirectory(String saveFilePath){
+		File loadedFile = loadSavedDirectory(saveFilePath);
+	}
+	
+	public static File loadSavedDirectory(String saveFilePath){
+		BufferedReader br = CommonTools.loadReadFile(saveFilePath);
+		File myDirectory = null;
+		String inputDirectory = null;
+		
+		//Only try to read the file if it actually exists
+		if(br != null){
+
+			try {
+				inputDirectory = br.readLine();
+			} catch (IOException e) {
+				CommonTools.processError("Error reading File.");
+			}
+			
+			myDirectory = new File(inputDirectory);
+			
+			/*
+			 * If the filename provided by the file doesn't exist or isn't a directory
+			 * then clear out the directory variable.
+			 * In this case we want to fail silently and continue execution.
+			 */
+			if(myDirectory.exists() == false || myDirectory.isDirectory() == false){
+				myDirectory = null;
+			}
+			
+			try {
+				br.close();
+			} catch (IOException e) {
+				CommonTools.processError("Error closing file reader");
+			}
+		}
+		
+		return myDirectory;
+	}
+	
+	private static File getDirectoryFromUser(String dialogTitle, File loadedFile){
+		
+	}
+	
+	//Asks the user for a directory based on a starting point, which has presumably been loaded from disk.
+	private static File askUserForDirectory(String dialogTitle, File startingDirectory){
+		JFileChooser fileChooser = new JFileChooser();
+		
+		fileChooser.setCurrentDirectory(startingDirectory);
+		fileChooser.setDialogTitle(dialogTitle);
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		
+		if(fileChooser.showOpenDialog(fileChooser) == JFileChooser.APPROVE_OPTION){
+			return fileChooser.getSelectedFile();
+		}
+		
+		return null;
 	}
 }
