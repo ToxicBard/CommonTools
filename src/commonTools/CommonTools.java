@@ -12,6 +12,10 @@ import javax.swing.JFileChooser;
 
 
 public class CommonTools {
+	
+	/*
+	 * TODO Write a timer class
+	 */
 
 	public static void processError(String errorText){
 		System.out.println(errorText);
