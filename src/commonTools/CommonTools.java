@@ -14,7 +14,8 @@ import javax.swing.JFileChooser;
 public class CommonTools {
 	
 	/*
-	 * TODO Write a timer class
+	 * TODO Move all *.jar libraries to the CommonTools project
+	 * 		and update references accordingly 
 	 */
 
 	public static void processError(String errorText){

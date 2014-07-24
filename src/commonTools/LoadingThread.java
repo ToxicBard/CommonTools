@@ -2,6 +2,7 @@ package commonTools;
 
 public class LoadingThread extends Thread {
 	private boolean mKeepRunning = true;
+	private boolean mStarted = false;
 	private boolean mDebugMode = false;
 	private int mProgressCounter = 0;
 	private int mExecDelay = 250;
@@ -15,7 +16,16 @@ public class LoadingThread extends Thread {
 		System.out.println("");
 	}
 	
+	public boolean isRunning(){
+		if(mStarted && mKeepRunning){
+			return true;
+		}
+		return false;
+	}
+	
 	public void run(){
+		mStarted = true;
+		
 		while(mKeepRunning == true && !mDebugMode){
 			this.printLoadingString();
 			try {
