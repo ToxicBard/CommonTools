@@ -3,14 +3,71 @@ package commonTools;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 import javax.swing.JFileChooser;
 
 public class FileTools {
+	
+	public static void writeObjectToFile(Serializable writeObject, String fileLocation){
+		FileOutputStream fileOut = null;
+		ObjectOutputStream objectOut = null;
+		File checkDirFile = new File(fileLocation);
+		
+		try {
+			//If the directory doesn't exist, then create it
+			if(!checkDirFile.getParentFile().exists()){
+				checkDirFile.getParentFile().mkdirs();
+			}
+			
+			//Create the necessary output streams
+			fileOut = new FileOutputStream(fileLocation);
+			objectOut = new ObjectOutputStream(fileOut);
+			
+			//Write the object
+			objectOut.writeObject(writeObject);
+			
+			//Close and save
+			objectOut.close();
+			fileOut.close();
+		} catch (IOException e) {
+			CommonTools.processError("Error Writing to FileOutputStream");
+		}
+		
+	}
+	
+	public static Object readObjectFromFile(String fileLocation){
+		FileInputStream fileIn = null;
+		ObjectInputStream objectIn = null;
+		Object toReturn = null;
+		
+		try {
+			
+			//Create the necessary input streams
+			fileIn = new FileInputStream(fileLocation);
+			objectIn = new ObjectInputStream(fileIn);
+			
+			//Read the object from file
+			toReturn = objectIn.readObject();
+			
+			//Close the streams
+			objectIn.close();
+			fileIn.close();
+		} catch (IOException | ClassNotFoundException e) {
+			CommonTools.processError("Error reading from FileInputStream");
+		}
+		
+		return toReturn;
+		
+	}
 
 	public static BufferedReader loadReadFile(String filePath){
 		File myFile = new File(filePath);
