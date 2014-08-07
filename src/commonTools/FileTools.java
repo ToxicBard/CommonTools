@@ -62,6 +62,7 @@ public class FileTools {
 			objectIn.close();
 			fileIn.close();
 		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
 			CommonTools.processError("Error reading from FileInputStream");
 		}
 		
