@@ -17,6 +17,10 @@ import javax.swing.JFileChooser;
 
 public class FileTools {
 	
+	/*
+	 * TODO Write a function that takes a File as a parameter and returns its extension as a string
+	 */
+	
 	public static void writeObjectToFile(Serializable writeObject, String fileLocation){
 		FileOutputStream fileOut = null;
 		ObjectOutputStream objectOut = null;
