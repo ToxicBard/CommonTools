@@ -28,4 +28,16 @@ public class CommonTools {
 			    getInputArguments().toString().indexOf("jdwp") >= 0;
 	}
 	
+	public static int intParse(String parseString){
+		int toReturn = 0;
+	     try  
+	     {  
+	         toReturn = Integer.parseInt(parseString);  
+	      } catch(NumberFormatException nfe)  
+	      {  
+	          toReturn = 0;
+	      }  
+	     return toReturn;
+	}
+	
 }
