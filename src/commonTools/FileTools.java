@@ -17,10 +17,6 @@ import javax.swing.JFileChooser;
 
 public class FileTools {
 	
-	/*
-	 * TODO Write a function that takes a File as a parameter and returns its extension as a string
-	 */
-	
 	public static void writeObjectToFile(Serializable writeObject, String fileLocation){
 		FileOutputStream fileOut = null;
 		ObjectOutputStream objectOut = null;
@@ -226,6 +222,7 @@ public class FileTools {
 	//Asks the user for a directory based on a starting point, which has presumably been loaded from disk.
 	private static File askUserForDirectory(String dialogTitle, File startingDirectory){
 		JFileChooser fileChooser = new JFileChooser();
+		File returnFile = null;
 		
 		fileChooser.setCurrentDirectory(startingDirectory);
 		fileChooser.setDialogTitle(dialogTitle);
@@ -233,10 +230,18 @@ public class FileTools {
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		
 		if(fileChooser.showOpenDialog(fileChooser) == JFileChooser.APPROVE_OPTION){
-			return fileChooser.getSelectedFile();
+			returnFile = fileChooser.getSelectedFile();
 		}
 		
-		return null;
+		/*
+		 * We have to explicitly deallocate the JFileChooser and run garbage collection
+		 * before returning in order to prevent
+		 * "Exception while removing reference: java.lang.InterruptedException"
+		 */
+		fileChooser = null;
+		System.gc();
+		
+		return returnFile;
 	}
 	
 	private static void saveDirectoryToDisk(String saveFilePath, File selectedFolder){
